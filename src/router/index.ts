@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Counter1Page from '@/counter/pages/Counter1Page.vue'
 import CounterSetupPage from '@/counter/pages/CounterSetupPage.vue'
 
+import ClientsLayoutVue from '@/clients/layout/ClientsLayout.vue'
+import ListPage from '@/clients/pages/ListPage.vue'
+import ClientPage from '@/clients/pages/ClientPage.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +20,16 @@ const router = createRouter({
       name: 'counter-2',
       component: CounterSetupPage
     },
-    
+    {
+      path: '/clients',
+      name: 'clients',
+      component: ClientsLayoutVue,
+      redirect: {name: 'list'},
+      children:[
+        { path: 'list', name: 'list', component: ListPage, },
+        { path: ':id', name: 'client-id', component: ClientPage, }
+      ]
+    },
   ]
 })
 
