@@ -50,5 +50,5 @@ npm run lint
 Es necesario ejecutar el backend con el siguiente comando
 
 ```sh
-backend-server
+npm run backend-server
 ```
