@@ -44,3 +44,11 @@ npm run build
 ```sh
 npm run lint
 ```
+
+##Para el server con jsonServer
+
+Es necesario ejecutar el backend con el siguiente comando
+
+```sh
+backend-server
+```
