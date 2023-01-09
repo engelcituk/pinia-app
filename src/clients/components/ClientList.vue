@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import useClients from '@/clients/composables/useClients'
+
+    const {} = useClients()
 
 </script>
 
