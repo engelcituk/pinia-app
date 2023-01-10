@@ -1,15 +1,28 @@
 
 <script setup lang="ts">
 
+import useClients from '@/clients/composables/useClients'
+const { getPage, totalPageNumber, currentPage, totalPages } = useClients()
+
 </script>
 
 <template>
     <div>   
-        <button>Anterior</button>
-        <button>1</button>
-        <button class="active">2</button>
-        <button>3</button>
-        <button>Siguiente</button>
+        <button
+            :disabled="currentPage === 1"
+        >Anterior
+        </button>
+        <button
+            v-for="number of totalPageNumber" :key="number"
+            @click="getPage(number)"
+            :class="{active: currentPage === totalPages }"
+        >
+            {{ number }}
+        </button>
+        <button
+            :disabled="currentPage === 5"
+        >Siguiente
+        </button>
     </div>
 </template>
 

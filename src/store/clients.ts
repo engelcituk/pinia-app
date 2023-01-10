@@ -5,13 +5,13 @@ import  type { Client } from '@/clients/interfaces/client';
 export const useClientsStore = defineStore('clients', ()=> {
 
     const currentPage = ref<number>(1)
-    const totalPage = ref<number>(5)
+    const totalPages = ref<number>(5)
     const clients = ref<Client[]>([]) //arreglo de clientes
 
     return {
       //state properties
       currentPage,
-      totalPage,
+      totalPages,
       clients,
 
       //Getters
@@ -21,10 +21,13 @@ export const useClientsStore = defineStore('clients', ()=> {
       setClients(newClients: Client[]){
         clients.value = newClients
       },
+
       setPage(page: number){
         if(currentPage.value === page ) return
+        if(page <= 0) return
         currentPage.value = page
-      }
+      },
+      
 
     }
 })

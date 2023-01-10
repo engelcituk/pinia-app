@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import useClients from '@/clients/composables/useClients'
-
-    const {clients} = useClients()
+const {clients} = useClients()
 
 </script>
 
