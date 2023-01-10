@@ -10,17 +10,19 @@ const { getPage, totalPageNumber, currentPage, totalPages } = useClients()
     <div>   
         <button
             :disabled="currentPage === 1"
+            @click="getPage(currentPage -1 )"
         >Anterior
         </button>
         <button
             v-for="number of totalPageNumber" :key="number"
             @click="getPage(number)"
-            :class="{active: currentPage === totalPages }"
+            :class="{active: currentPage === number }"
         >
             {{ number }}
         </button>
         <button
-            :disabled="currentPage === 5"
+            :disabled="currentPage === totalPages"
+            @click="getPage(currentPage + 1)"
         >Siguiente
         </button>
     </div>
