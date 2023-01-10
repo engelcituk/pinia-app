@@ -30,8 +30,10 @@ const useClients = () => {
 
     return{
         //Properties
-        isLoading,
         clients,
+        currentPage,
+        isLoading,
+        totalPage,
 
     }
 }
