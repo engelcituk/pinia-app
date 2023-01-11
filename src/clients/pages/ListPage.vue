@@ -5,7 +5,7 @@ import LoadingModal from '@/shared/components/LoadingModal.vue'
 
 import useClients from '@/clients/composables/useClients';
 
-const { isLoading } = useClients()
+const { isLoading, clients} = useClients()
 
 </script>
 
@@ -13,10 +13,12 @@ const { isLoading } = useClients()
     <div>
     <h1>Listado de clientes</h1>
         <!-- Client List -->
-        <ClientList/>
+        <ClientList :clients="clients"/>
 
         <!-- Pagination Numbers -->
-        <PaginationNumbers/>
+        <PaginationNumbers
+        
+        />
 
         <!-- Loading modal -->
         <LoadingModal v-if="isLoading"/>
