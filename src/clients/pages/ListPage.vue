@@ -5,7 +5,7 @@ import LoadingModal from '@/shared/components/LoadingModal.vue'
 
 import useClients from '@/clients/composables/useClients';
 
-const { isLoading, clients} = useClients()
+const { isLoading, clients, currentPage, totalPages, getPage } = useClients()
 
 </script>
 
@@ -17,7 +17,9 @@ const { isLoading, clients} = useClients()
 
         <!-- Pagination Numbers -->
         <PaginationNumbers
-        
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            @page-changed="getPage"
         />
 
         <!-- Loading modal -->
