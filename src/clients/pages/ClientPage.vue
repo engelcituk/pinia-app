@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import LoadingModal from '@/shared/components/LoadingModal.vue';
+import useClient from '@/clients/composables/useClient';
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
+
+const { client, isLoading } = useClient( +route.params.id ) //ponerle un mas + al argumento lo convierte en un numero
 
 </script>
 <template>
@@ -7,7 +13,7 @@ import LoadingModal from '@/shared/components/LoadingModal.vue';
         <h3>Guardando..</h3>
         <h3>Guardado</h3>
 
-        <LoadingModal v-if="false"/>
+        <LoadingModal v-if="isLoading"/>
 
         <div>
             <h1>Ecituk</h1>
@@ -28,7 +34,7 @@ import LoadingModal from '@/shared/components/LoadingModal.vue';
         </div>
     </div>
     <pre>
-    Toda la información del client
+        {{ client }}
     </pre>
 </template>
 
