@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import LoadingModal from '@/shared/components/LoadingModal.vue';
 import useClient from '@/clients/composables/useClient';
+import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMutation } from '@tanstack/vue-query';
 import type { Client } from '@/clients/interfaces/client';
@@ -11,18 +12,27 @@ const route = useRoute()
 const { client, isLoading } = useClient( +route.params.id ) //ponerle un mas + al argumento lo convierte en un numero
 
 // Promesa que resuelve un client
-const updateClient = async (client:Client ):Promise<Client> =>{
+const updateClient = async (client:Client ):Promise<Client> => {
+    await new Promise( resolve => {
+        setTimeout(() => resolve(true), 2000);
+    })
     const { data } = await clientsApi.patch<Client>(`clients/${client.id}`, client) //patch regresa un Cliente
     return data
 }
 
 const clientMutation = useMutation( updateClient )
 
+watch( clientMutation.isSuccess, ()=>{
+    setTimeout(() => {
+        clientMutation.reset()
+    }, 2000);
+})
+
 </script>
 <template>
     <div>
-        <h3>Guardando..</h3>
-        <h3>Guardado</h3>
+        <h3 v-if="clientMutation.isLoading.value">Guardando..</h3>
+        <h3 v-if="clientMutation.isSuccess.value">Guardado</h3>
 
         <LoadingModal v-if="isLoading"/>
 
@@ -42,7 +52,10 @@ const clientMutation = useMutation( updateClient )
                     v-model="client.address"
                 >
                 <br>
-                <button type="submit">Guardar</button>
+                <button
+                    type="submit"
+                    :disabled="clientMutation.isLoading.value"
+                >Guardar</button>
             </form>
 
         </div>

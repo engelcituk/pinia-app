@@ -6,6 +6,7 @@ import clientsApi from '@/api/clients-api';
 
 // Esto es una promesa que resuelve un client
 const getClient = async( id: number ):Promise<Client> => {
+    
     const { data } =  await clientsApi.get(`/clients/${id}`)
     return data
 }
