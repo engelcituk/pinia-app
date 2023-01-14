@@ -3,20 +3,24 @@ import LoadingModal from '@/shared/components/LoadingModal.vue';
 import useClient from '@/clients/composables/useClient';
 import { watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useMutation } from '@tanstack/vue-query';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import type { Client } from '@/clients/interfaces/client';
 import clientsApi from '@/api/clients-api';
 
 const route = useRoute()
+const queryClient = useQueryClient()
 
 const { client, isLoading } = useClient( +route.params.id ) //ponerle un mas + al argumento lo convierte en un numero
 
 // Promesa que resuelve un client
 const updateClient = async (client:Client ):Promise<Client> => {
-    await new Promise( resolve => {
+    /* await new Promise( resolve => {
         setTimeout(() => resolve(true), 2000);
-    })
+    })*/
     const { data } = await clientsApi.patch<Client>(`clients/${client.id}`, client) //patch regresa un Cliente
+    const queries = queryClient.getQueryCache().findAll(['clients?page='], {exact:false} )
+    // queries.forEach( query => query.reset() )//limpio los datos que hay en caché
+    queries.forEach( query => query.fetch() )
     return data
 }
 
