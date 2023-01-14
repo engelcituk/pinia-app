@@ -2,15 +2,17 @@
 import LoadingModal from '@/shared/components/LoadingModal.vue';
 import useClient from '@/clients/composables/useClient';
 import { watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import type { Client } from '@/clients/interfaces/client';
 import clientsApi from '@/api/clients-api';
 
 const route = useRoute()
+const router = useRouter()
+
 const queryClient = useQueryClient()
 
-const { client, isLoading } = useClient( +route.params.id ) //ponerle un mas + al argumento lo convierte en un numero
+const { client, isLoading, isError } = useClient( +route.params.id ) //ponerle un mas + al argumento lo convierte en un numero
 
 // Promesa que resuelve un client
 const updateClient = async (client:Client ):Promise<Client> => {
@@ -26,10 +28,16 @@ const updateClient = async (client:Client ):Promise<Client> => {
 
 const clientMutation = useMutation( updateClient )
 
-watch( clientMutation.isSuccess, ()=>{
+watch( clientMutation.isSuccess, ()=> {
     setTimeout(() => {
         clientMutation.reset()
     }, 2000);
+})
+
+watch( isError, () =>{
+    if(isError.value){
+        router.replace('/clients')
+    }
 })
 
 </script>

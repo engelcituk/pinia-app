@@ -7,7 +7,7 @@ import clientsApi from '@/api/clients-api';
 // Esto es una promesa que resuelve un client
 const getClient = async( id: number ):Promise<Client> => {
     
-    const { data } =  await clientsApi.get(`/clients/${id}`)
+    const { data } =  await clientsApi.get<Client>(`/clients/${id}`)
     return data
 }
 
@@ -15,12 +15,11 @@ const useClient = (id: number) => {
 
     const client = ref<Client>();
 
-    const {isLoading, data } = useQuery(
+    const { isLoading, data, isError } = useQuery(
         ['client', id],
         () => getClient(id),
-        {
-            // cacheTime: 0 // si pongo esto ignora caché y siempre hará la petición
-        }
+        { retry: false },
+        
     )
     // pendiente de la data cuando cambie, el client toma el valor de data
     watch(  data, ()=> {
@@ -30,8 +29,9 @@ const useClient = (id: number) => {
     }, {immediate: true})
 
     return {
+        client,
+        isError,
         isLoading,
-        client
     }
 
   }
