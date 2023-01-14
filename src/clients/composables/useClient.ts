@@ -24,7 +24,7 @@ const useClient = (id: number) => {
     // pendiente de la data cuando cambie, el client toma el valor de data
     watch(  data, ()=> {
         if( data.value){
-            client.value = data.value
+            client.value = {...data.value } //resuelve el bug de readonly al querer editar
         }
     }, {immediate: true})
 
